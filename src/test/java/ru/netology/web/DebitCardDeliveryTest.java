@@ -20,29 +20,30 @@ public class DebitCardDeliveryTest {
         Configuration.holdBrowserOpen = true;
     }
 
+    public String generateDate(long addDays, String pattern) {
+        return LocalDate.now().plusDays(addDays).format(DateTimeFormatter.ofPattern(pattern));
+    }
+
     @Test
     void shouldAppointMeetingDatePositive() {
         $("input[placeholder='Город']").val("Москва");
-        $("input[placeholder='Дата встречи']").doubleClick().sendKeys("DELETE");
-        String date = LocalDate.now().plusDays(6).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        $("input[placeholder='Дата встречи']").doubleClick().sendKeys(Keys.DELETE);
+        String date = generateDate(6,"dd.MM.yyyy");
         $("input[placeholder='Дата встречи']").val(date);
-        //$("input[placeholder='Дата встречи']").clear();
-        //$("input[placeholder='Дата встречи']").sendKeys(Keys.DELETE);
-        //$("input[placeholder='Дата встречи']").val("22.02.2023").pressEnter();
-        //$x("[@class = 'input__control'][contains(text(), 'Город')]").val("Москва");
         $("[data-test-id=name] input").val("Анастасия Мисюрова");
         $("[data-test-id=phone] input").val("+79165665566");
         $("[data-test-id=agreement]").click();
         $("[class=\"button__content\"]").click();
         $("[class='notification__title']").shouldBe(visible, Duration.ofSeconds(12));
-        $("[data-test-id=notification] .notification__content").should(exactText("Встреча успешно забронирована на " + date));
+        $("[data-test-id=notification] .notification__content")
+                .should(exactText("Встреча успешно забронирована на " + date));
     }
 
     @Test
     void shouldNotAppointMeetingWithIncorrectDate() {
         $("input[placeholder='Город']").val("Москва");
-        $("input[placeholder='Дата встречи']").doubleClick().sendKeys("DELETE");
-        String date = LocalDate.now().plusDays(2).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        $("input[placeholder='Дата встречи']").doubleClick().sendKeys(Keys.DELETE);
+        String date = generateDate(2,"dd.MM.yyyy");
         $("input[placeholder='Дата встречи']").val(date);
         $("[data-test-id=name] input").val("Анастасия Мисюрова");
         $("[data-test-id=phone] input").val("+79165665566");
@@ -54,8 +55,7 @@ public class DebitCardDeliveryTest {
     @Test
     void shouldNotAppointMeetingWithoutDate() {
         $("input[placeholder='Город']").val("Москва");
-        $("input[placeholder='Дата встречи']").doubleClick().sendKeys("DELETE");
-        String date = LocalDate.now().plusDays(6).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        $("input[placeholder='Дата встречи']").doubleClick().sendKeys(Keys.DELETE);
         $("input[placeholder='Дата встречи']").val();
         $("[data-test-id=name] input").val("Анастасия Мисюрова");
         $("[data-test-id=phone] input").val("+79165665566");
@@ -67,8 +67,8 @@ public class DebitCardDeliveryTest {
     @Test
     void shouldNotAppointMeetingDateWithoutCity() {
         $("input[placeholder='Город']").val("");
-        $("input[placeholder='Дата встречи']").doubleClick().sendKeys("DELETE");
-        String date = LocalDate.now().plusDays(6).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        $("input[placeholder='Дата встречи']").doubleClick().sendKeys(Keys.DELETE);
+        String date = generateDate(6,"dd.MM.yyyy");
         $("input[placeholder='Дата встречи']").val(date);
         $("[data-test-id=name] input").val("Анастасия Мисюрова");
         $("[data-test-id=phone] input").val("+79165665566");
@@ -80,8 +80,8 @@ public class DebitCardDeliveryTest {
     @Test
     void shouldNotAppointMeetingDateWithAbsentCity() {
         $("input[placeholder='Город']").val("Одинцово");
-        $("input[placeholder='Дата встречи']").doubleClick().sendKeys("DELETE");
-        String date = LocalDate.now().plusDays(6).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        $("input[placeholder='Дата встречи']").doubleClick().sendKeys(Keys.DELETE);
+        String date = generateDate(6,"dd.MM.yyyy");
         $("input[placeholder='Дата встречи']").val(date);
         $("[data-test-id=name] input").val("Анастасия Мисюрова");
         $("[data-test-id=phone] input").val("+79165665566");
@@ -93,8 +93,8 @@ public class DebitCardDeliveryTest {
     @Test
     void shouldNotAppointMeetingDateWithIncorrectCity() {
         $("input[placeholder='Город']").val("Vjcrdf");
-        $("input[placeholder='Дата встречи']").doubleClick().sendKeys("DELETE");
-        String date = LocalDate.now().plusDays(6).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        $("input[placeholder='Дата встречи']").doubleClick().sendKeys(Keys.DELETE);
+        String date = generateDate(6,"dd.MM.yyyy");
         $("input[placeholder='Дата встречи']").val(date);
         $("[data-test-id=name] input").val("Анастасия Мисюрова");
         $("[data-test-id=phone] input").val("+79165665566");
@@ -106,8 +106,8 @@ public class DebitCardDeliveryTest {
     @Test
     void shouldNotAppointMeetingDateWithoutName() {
         $("input[placeholder='Город']").val("Москва");
-        $("input[placeholder='Дата встречи']").doubleClick().sendKeys("DELETE");
-        String date = LocalDate.now().plusDays(6).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        $("input[placeholder='Дата встречи']").doubleClick().sendKeys(Keys.DELETE);
+        String date = generateDate(6,"dd.MM.yyyy");
         $("input[placeholder='Дата встречи']").val(date);
         $("[data-test-id=name] input").val("");
         $("[data-test-id=phone] input").val("+79165665566");
@@ -119,8 +119,8 @@ public class DebitCardDeliveryTest {
     @Test
     void shouldNotAppointMeetingDateWithNameInEnglish() {
         $("input[placeholder='Город']").val("Москва");
-        $("input[placeholder='Дата встречи']").doubleClick().sendKeys("DELETE");
-        String date = LocalDate.now().plusDays(6).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        $("input[placeholder='Дата встречи']").doubleClick().sendKeys(Keys.DELETE);
+        String date = generateDate(6,"dd.MM.yyyy");
         $("input[placeholder='Дата встречи']").val(date);
         $("[data-test-id=name] input").val("Anastassiya Misyurova");
         $("[data-test-id=phone] input").val("+79165665566");
@@ -132,8 +132,8 @@ public class DebitCardDeliveryTest {
     @Test
     void shouldNotAppointMeetingDateWithoutPhone() {
         $("input[placeholder='Город']").val("Москва");
-        $("input[placeholder='Дата встречи']").doubleClick().sendKeys("DELETE");
-        String date = LocalDate.now().plusDays(6).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        $("input[placeholder='Дата встречи']").doubleClick().sendKeys(Keys.DELETE);
+        String date = generateDate(6,"dd.MM.yyyy");
         $("input[placeholder='Дата встречи']").val(date);
         $("[data-test-id=name] input").val("Анастасия Мисюрова");
         $("[data-test-id=phone] input").val("");
@@ -145,8 +145,8 @@ public class DebitCardDeliveryTest {
     @Test
     void shouldNotAppointMeetingDateWithIncorrectPhone() {
         $("input[placeholder='Город']").val("Москва");
-        $("input[placeholder='Дата встречи']").doubleClick().sendKeys("DELETE");
-        String date = LocalDate.now().plusDays(6).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        $("input[placeholder='Дата встречи']").doubleClick().sendKeys(Keys.DELETE);
+        String date = generateDate(6,"dd.MM.yyyy");
         $("input[placeholder='Дата встречи']").val(date);
         $("[data-test-id=name] input").val("Анастасия Мисюрова");
         $("[data-test-id=phone] input").val("+791656655666");
@@ -158,8 +158,8 @@ public class DebitCardDeliveryTest {
     @Test
     void shouldAppointMeetingDateWithoutAgreement() {
         $("input[placeholder='Город']").val("Москва");
-        $("input[placeholder='Дата встречи']").doubleClick().sendKeys("DELETE");
-        String date = LocalDate.now().plusDays(6).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        $("input[placeholder='Дата встречи']").doubleClick().sendKeys(Keys.DELETE);
+        String date = generateDate(6,"dd.MM.yyyy");
         $("input[placeholder='Дата встречи']").val(date);
         $("[data-test-id=name] input").val("Анастасия Мисюрова");
         $("[data-test-id=phone] input").val("+79165665566");
